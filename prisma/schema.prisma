@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model CreateUser {
+  id              Int      @id @default(autoincrement()) // Primary key
+  name            String
+  email           String   @unique                     // Unique constraint
+  password        String
+  createdAt       DateTime @default(now())              // Default current timestamp
+  updatedAt       DateTime @updatedAt                  // Automatically updated
+  age             Int      @default(18)                // Default age is 18
+  phone           String?                              // Made optional to handle null cases
+  country         String?                              // Optional field
+
+  @@map("users")                                       // Optional: Map table name to `users`
+}
+
+
+model Post {
+  id              Int      @id @default(autoincrement()) // Primary key with auto-increment
+  postTitle       String   @default("Default Title")     // Default title
+  postDescription String                                 // Description field
+  tags            String[]                               // Array of tags (PostgreSQL supports this natively)
+  image           String?
+  createdAt       DateTime @default(now())                       
+  updatedAt       DateTime @updatedAt                        
+}
